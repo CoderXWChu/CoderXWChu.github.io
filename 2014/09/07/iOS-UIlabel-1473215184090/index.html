@@ -84,15 +84,39 @@
 
 
 
-<meta name="description" content="Talk is cheap.Show me your code.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="CCNotes">
-<meta property="og:url" content="https://CoderXWChu.github.io/index.html">
+<meta name="description" content="在使用boundingRectWithSize: 计算 UILabel 高度，显示出来后 Label 内容显示不全，这种情况怎么治呢？
+
+Demo地址：Demo github 地址
+
+分析后可能存在的两个原因：
+
+1.使用boundingRectWithSize：计算时传入的相关属性与实际显示的 UILabel 属性不一致，例：
+1@&amp;#123;NSFontAttributeName:[UIFo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 使用 boundingRectWithSize: 计算 UILabel 高度错误的解决方案">
+<meta property="og:url" content="https://CoderXWChu.github.io/2014/09/07/iOS-UIlabel-1473215184090/index.html">
 <meta property="og:site_name" content="CCNotes">
-<meta property="og:description" content="Talk is cheap.Show me your code.">
+<meta property="og:description" content="在使用boundingRectWithSize: 计算 UILabel 高度，显示出来后 Label 内容显示不全，这种情况怎么治呢？
+
+Demo地址：Demo github 地址
+
+分析后可能存在的两个原因：
+
+1.使用boundingRectWithSize：计算时传入的相关属性与实际显示的 UILabel 属性不一致，例：
+1@&amp;#123;NSFontAttributeName:[UIFo">
+<meta property="og:image" content="http://od444qkqy.bkt.clouddn.com/CalculateHeightForUILabel.png">
+<meta property="og:updated_time" content="2016-09-07T02:44:00.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CCNotes">
-<meta name="twitter:description" content="Talk is cheap.Show me your code.">
+<meta name="twitter:title" content="iOS 使用 boundingRectWithSize: 计算 UILabel 高度错误的解决方案">
+<meta name="twitter:description" content="在使用boundingRectWithSize: 计算 UILabel 高度，显示出来后 Label 内容显示不全，这种情况怎么治呢？
+
+Demo地址：Demo github 地址
+
+分析后可能存在的两个原因：
+
+1.使用boundingRectWithSize：计算时传入的相关属性与实际显示的 UILabel 属性不一致，例：
+1@&amp;#123;NSFontAttributeName:[UIFo">
+<meta name="twitter:image" content="http://od444qkqy.bkt.clouddn.com/CalculateHeightForUILabel.png">
 
 
 
@@ -113,9 +137,9 @@
 
 
 
-  <link rel="canonical" href="https://CoderXWChu.github.io/"/>
+  <link rel="canonical" href="https://CoderXWChu.github.io/2014/09/07/iOS-UIlabel-1473215184090/"/>
 
-  <title> CCNotes </title>
+  <title> iOS 使用 boundingRectWithSize: 计算 UILabel 高度错误的解决方案 | CCNotes </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -146,9 +170,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -275,9 +297,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -297,10 +319,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2014/09/07/iOS-UIlabel-1473215184090/" itemprop="url">
-                  iOS 使用 boundingRectWithSize: 计算 UILabel 高度错误的解决方案
-                </a>
+                iOS 使用 boundingRectWithSize: 计算 UILabel 高度错误的解决方案
               
             
           </h1>
@@ -347,9 +366,7 @@
       
 
       
-        
-          
-            <ul>
+        <ul>
 <li>在使用boundingRectWithSize: 计算 UILabel 高度，显示出来后 Label 内容显示不全，这种情况怎么治呢？</li>
 </ul>
 <p>Demo地址：<a href="https://github.com/CoderXWChu/Demo" target="_blank" rel="external">Demo github 地址</a></p>
@@ -378,16 +395,20 @@
 <p><img src="http://od444qkqy.bkt.clouddn.com/CalculateHeightForUILabel.png" alt="CalculateHeightForUILabel.png"></p>
 <p>Demo地址：<a href="https://github.com/CoderXWChu/Demo" target="_blank" rel="external">Demo github 地址</a></p>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
@@ -398,16 +419,15 @@
 
       
       
-        <div class="post-eof"></div>
-      
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -415,6 +435,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/09/07/iOS-UIlabel-1473215184090/"
+           data-title="iOS 使用 boundingRectWithSize: 计算 UILabel 高度错误的解决方案" data-url="https://CoderXWChu.github.io/2014/09/07/iOS-UIlabel-1473215184090/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -434,8 +462,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -471,6 +508,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -567,6 +615,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 
