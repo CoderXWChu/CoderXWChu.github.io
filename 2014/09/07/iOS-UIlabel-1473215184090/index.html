@@ -104,8 +104,8 @@ Demo地址：Demo github 地址
 
 1.使用boundingRectWithSize：计算时传入的相关属性与实际显示的 UILabel 属性不一致，例：
 1@&amp;#123;NSFontAttributeName:[UIFo">
-<meta property="og:image" content="http://od444qkqy.bkt.clouddn.com/CalculateHeightForUILabel.png">
-<meta property="og:updated_time" content="2016-09-07T04:59:06.000Z">
+<meta property="og:image" content="http://od444qkqy.bkt.clouddn.com/CalculateHeightForUILabel-2.png">
+<meta property="og:updated_time" content="2016-09-08T02:30:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS 使用 boundingRectWithSize: 计算 UILabel 高度错误的解决方案">
 <meta name="twitter:description" content="在使用boundingRectWithSize: 计算 UILabel 高度，显示出来后 Label 内容显示不全，这种情况怎么治呢？
@@ -116,7 +116,7 @@ Demo地址：Demo github 地址
 
 1.使用boundingRectWithSize：计算时传入的相关属性与实际显示的 UILabel 属性不一致，例：
 1@&amp;#123;NSFontAttributeName:[UIFo">
-<meta name="twitter:image" content="http://od444qkqy.bkt.clouddn.com/CalculateHeightForUILabel.png">
+<meta name="twitter:image" content="http://od444qkqy.bkt.clouddn.com/CalculateHeightForUILabel-2.png">
 
 
 
@@ -411,7 +411,7 @@ Demo地址：Demo github 地址
 <p>还有一种方法，可以达到相同的效果。采用 UILabel 的 -sizeThatFits:方法；</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">UILabel</span> *label = [[<span class="built_in">UILabel</span> alloc]init];</div><div class="line">label.numberOfLines = <span class="number">0</span>;</div><div class="line">label.lineBreakMode = <span class="built_in">NSLineBreakByWordWrapping</span>;</div><div class="line">label.textAlignment = <span class="built_in">NSTextAlignmentLeft</span>;</div><div class="line">label.text = text;</div><div class="line">label.font = [<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">16</span>];</div><div class="line"><span class="built_in">CGSize</span> labelSize = [label sizeThatFits:<span class="built_in">CGSizeMake</span>(<span class="number">200.</span>f, MAXFLOAT)];</div><div class="line"><span class="built_in">CGFloat</span> height = ceil(labelSize.height) + <span class="number">1</span>;</div></pre></td></tr></table></figure>
 <p>测试正常：</p>
-<p><img src="http://od444qkqy.bkt.clouddn.com/CalculateHeightForUILabel.png" alt="CalculateHeightForUILabel.png"></p>
+<p><img src="http://od444qkqy.bkt.clouddn.com/CalculateHeightForUILabel-2.png" alt="CalculateHeightForUILabel.png"></p>
 <p>Demo地址：<a href="https://github.com/CoderXWChu/Demo" target="_blank" rel="external">Demo github 地址</a></p>
 
       
