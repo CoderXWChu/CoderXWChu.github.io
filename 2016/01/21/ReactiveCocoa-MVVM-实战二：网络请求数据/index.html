@@ -1,0 +1,692 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RAC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="ReactiveCocoa + MVVM 实战二：网络请求数据
+接口：这里先给朋友介绍一个免费的网络数据接口，豆瓣。可以经常用来练习一些网络请求的小Demo.
+
+需求+分析+步骤1234567891011需求：请求豆瓣图书信息，url:https://api.douban.com/v2/book/search?q=基础分析：请求一样，交给VM模型管理步骤:    1.控制器提供一个视图模型（req">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ReactiveCocoa + MVVM 实战二：网络请求数据">
+<meta property="og:url" content="https://CoderXWChu.github.io/2016/01/21/ReactiveCocoa-MVVM-实战二：网络请求数据/index.html">
+<meta property="og:site_name" content="CCNotes">
+<meta property="og:description" content="ReactiveCocoa + MVVM 实战二：网络请求数据
+接口：这里先给朋友介绍一个免费的网络数据接口，豆瓣。可以经常用来练习一些网络请求的小Demo.
+
+需求+分析+步骤1234567891011需求：请求豆瓣图书信息，url:https://api.douban.com/v2/book/search?q=基础分析：请求一样，交给VM模型管理步骤:    1.控制器提供一个视图模型（req">
+<meta property="og:updated_time" content="2016-11-10T04:39:16.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ReactiveCocoa + MVVM 实战二：网络请求数据">
+<meta name="twitter:description" content="ReactiveCocoa + MVVM 实战二：网络请求数据
+接口：这里先给朋友介绍一个免费的网络数据接口，豆瓣。可以经常用来练习一些网络请求的小Demo.
+
+需求+分析+步骤1234567891011需求：请求豆瓣图书信息，url:https://api.douban.com/v2/book/search?q=基础分析：请求一样，交给VM模型管理步骤:    1.控制器提供一个视图模型（req">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://CoderXWChu.github.io/2016/01/21/ReactiveCocoa-MVVM-实战二：网络请求数据/"/>
+
+  <title> ReactiveCocoa + MVVM 实战二：网络请求数据 | CCNotes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9b70312a130c40fbe6084889e124bfd1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CCNotes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">CoderXWChu's Notes</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'vXBbEDyEFnVgcgwS3xQk','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ReactiveCocoa + MVVM 实战二：网络请求数据
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-21T22:27:21+08:00" content="2016-01-21">
+              2016-01-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/21/ReactiveCocoa-MVVM-实战二：网络请求数据/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/21/ReactiveCocoa-MVVM-实战二：网络请求数据/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ReactiveCocoa-MVVM-实战二：网络请求数据"><a href="#ReactiveCocoa-MVVM-实战二：网络请求数据" class="headerlink" title="ReactiveCocoa + MVVM 实战二：网络请求数据"></a>ReactiveCocoa + MVVM 实战二：网络请求数据</h1><ul>
+<li>接口：这里先给朋友介绍一个免费的网络数据接口，豆瓣。可以经常用来练习一些网络请求的小Demo.</li>
+</ul>
+<h5 id="需求-分析-步骤"><a href="#需求-分析-步骤" class="headerlink" title="需求+分析+步骤"></a>需求+分析+步骤</h5><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">需求：请求豆瓣图书信息，url:https:<span class="comment">//api.douban.com/v2/book/search?q=基础</span></div><div class="line"></div><div class="line">分析：请求一样，交给VM模型管理</div><div class="line"></div><div class="line">步骤:</div><div class="line">    <span class="number">1.</span>控制器提供一个视图模型（requesViewModel），处理界面的业务逻辑</div><div class="line">    <span class="number">2.</span>VM提供一个命令，处理请求业务逻辑</div><div class="line">    <span class="number">3.</span>在创建命令的block中，会把请求包装成一个信号，等请求成功的时候，就会把数据传递出去。</div><div class="line">    <span class="number">4.</span>请求数据成功，应该把字典转换成模型，保存到视图模型中，控制器想用就直接从视图模型中获取。</div><div class="line">    <span class="number">5.</span>假设控制器想展示内容到tableView，直接让视图模型成为tableView的数据源，把所有的业务逻辑交给视图模型去做，这样控制器的代码就非常少了。</div></pre></td></tr></table></figure>
+<h5 id="控制器代码"><a href="#控制器代码" class="headerlink" title="控制器代码"></a>控制器代码</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">@interface ViewController ()</div><div class="line"></div><div class="line">@property (nonatomic, weak) UITableView *tableView;</div><div class="line"></div><div class="line">@property (nonatomic, strong) RequestViewModel *requesViewModel;</div><div class="line"></div><div class="line"></div><div class="line">@end</div><div class="line"></div><div class="line">@implementation ViewController</div><div class="line">(RequestViewModel *)requesViewModel</div><div class="line">&#123;</div><div class="line">    if (_requesViewModel == nil) &#123;</div><div class="line">        _requesViewModel = [[RequestViewModel alloc] init];</div><div class="line">    &#125;</div><div class="line">    return _requesViewModel;</div><div class="line">&#125;</div><div class="line"></div><div class="line">  (void)viewDidLoad &#123;</div><div class="line">    [super viewDidLoad];</div><div class="line">    // Do any additional setup after loading the view, typically from a nib.</div><div class="line"></div><div class="line">    // 创建tableView</div><div class="line">    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];</div><div class="line">    tableView.dataSource = self.requesViewModel;</div><div class="line"></div><div class="line">    [self.view addSubview:tableView];</div><div class="line"></div><div class="line">    // 执行请求</div><div class="line"> RACSignal *requesSiganl = [self.requesViewModel.reuqesCommand execute:nil];</div><div class="line"></div><div class="line">   // 获取请求的数据</div><div class="line">    [requesSiganl subscribeNext:^(NSArray *x) &#123;</div><div class="line"></div><div class="line">        self.requesViewModel.models = x;</div><div class="line"></div><div class="line">        [self.tableView reloadData];</div><div class="line"></div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
+<h5 id="视图模型-VM-代码"><a href="#视图模型-VM-代码" class="headerlink" title="视图模型(VM)代码"></a>视图模型(VM)代码</h5><figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">RequestViewModel</span> : <span class="title">NSObject</span>&lt;<span class="title">UITableViewDataSource</span>&gt;</span></div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">// 请求命令</span></div><div class="line">    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) RACCommand *reuqesCommand;</div><div class="line"></div><div class="line">    <span class="comment">//模型数组</span></div><div class="line">    <span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) <span class="built_in">NSArray</span> *models;</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">RequestViewModel</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)init</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span> = [<span class="keyword">super</span> init]) &#123;</div><div class="line"></div><div class="line">        [<span class="keyword">self</span> initialBind];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)initialBind</div><div class="line">&#123;</div><div class="line">    _reuqesCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(<span class="keyword">id</span> input) &#123;</div><div class="line"></div><div class="line">        RACSignal *requestSignal = [RACSignal createSignal:^RACDisposable *(<span class="keyword">id</span>&lt;RACSubscriber&gt; subscriber) &#123;</div><div class="line"></div><div class="line"></div><div class="line">            <span class="built_in">NSMutableDictionary</span> *parameters = [<span class="built_in">NSMutableDictionary</span> dictionary];</div><div class="line">            parameters[<span class="string">@"q"</span>] = <span class="string">@"基础"</span>;</div><div class="line"></div><div class="line">            <span class="comment">// 发送请求</span></div><div class="line">            [[AFHTTPRequestOperationManager manager] GET:<span class="string">@"https://api.douban.com/v2/book/search"</span> parameters:parameters success:^(AFHTTPRequestOperation * _Nonnull operation, <span class="keyword">id</span>  _Nonnull responseObject) &#123;</div><div class="line">                <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>,responseObject);</div><div class="line"></div><div class="line">                <span class="comment">// 请求成功调用</span></div><div class="line">                <span class="comment">// 把数据用信号传递出去</span></div><div class="line">                [subscriber sendNext:responseObject];</div><div class="line"></div><div class="line">                [subscriber sendCompleted];</div><div class="line"></div><div class="line"></div><div class="line">            &#125; failure:^(AFHTTPRequestOperation * _Nonnull operation, <span class="built_in">NSError</span> * _Nonnull error) &#123;</div><div class="line">                <span class="comment">// 请求失败调用</span></div><div class="line"></div><div class="line">            &#125;];</div><div class="line"></div><div class="line">            <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">        &#125;];</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">        <span class="comment">// 在返回数据信号时，把数据中的字典映射成模型信号，传递出去</span></div><div class="line">        <span class="keyword">return</span> [requestSignal map:^<span class="keyword">id</span>(<span class="built_in">NSDictionary</span> *value) &#123;</div><div class="line">            <span class="built_in">NSMutableArray</span> *dictArr = value[<span class="string">@"books"</span>];</div><div class="line"></div><div class="line">            <span class="comment">// 字典转模型，遍历字典中的所有元素，全部映射成模型，并且生成数组</span></div><div class="line">            <span class="built_in">NSArray</span> *modelArr = [[dictArr.rac_sequence map:^<span class="keyword">id</span>(<span class="keyword">id</span> value) &#123;</div><div class="line"></div><div class="line">                <span class="keyword">return</span> [Book bookWithDict:value];</div><div class="line">            &#125;] array];</div><div class="line"></div><div class="line">            <span class="keyword">return</span> modelArr;</div><div class="line">        &#125;];</div><div class="line"></div><div class="line">    &#125;];</div><div class="line"></div><div class="line"> &#125;</div><div class="line"></div><div class="line"><span class="meta">#pragma mark - UITableViewDataSource</span></div><div class="line"></div><div class="line">- (<span class="built_in">NSInteger</span>)tableView:(<span class="built_in">UITableView</span> *)tableView numberOfRowsInSection:(<span class="built_in">NSInteger</span>)section</div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.models.count;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="built_in">UITableViewCell</span> *)tableView:(<span class="built_in">UITableView</span> *)tableView cellForRowAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</div><div class="line">&#123;</div><div class="line">    <span class="keyword">static</span> <span class="built_in">NSString</span> *ID = <span class="string">@"cell"</span>;</div><div class="line">    <span class="built_in">UITableViewCell</span> *cell = [tableView dequeueReusableCellWithIdentifier:ID];</div><div class="line">    <span class="keyword">if</span> (cell == <span class="literal">nil</span>) &#123;</div><div class="line"></div><div class="line">        cell = [[<span class="built_in">UITableViewCell</span> alloc] initWithStyle:<span class="built_in">UITableViewCellStyleSubtitle</span> reuseIdentifier:ID];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Book *book = <span class="keyword">self</span>.models[indexPath.row];</div><div class="line">    cell.detailTextLabel.text = book.subtitle;</div><div class="line">    cell.textLabel.text = book.title;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> cell;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RAC/" rel="tag">#RAC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/21/ReactiveCocoa-MVVM-实战一：登录界面/" rel="next" title="ReactiveCocoa + MVVM 实战一：登录界面">
+                <i class="fa fa-chevron-left"></i> ReactiveCocoa + MVVM 实战一：登录界面
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/21/ReactiveCocoa-MVVM-实战二：网络请求数据/"
+           data-title="ReactiveCocoa + MVVM 实战二：网络请求数据" data-url="https://CoderXWChu.github.io/2016/01/21/ReactiveCocoa-MVVM-实战二：网络请求数据/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="CoderXWChu" />
+          <p class="site-author-name" itemprop="name">CoderXWChu</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap.Show me your code.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ReactiveCocoa-MVVM-实战二：网络请求数据"><span class="nav-number">1.</span> <span class="nav-text">ReactiveCocoa + MVVM 实战二：网络请求数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#需求-分析-步骤"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">需求+分析+步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#控制器代码"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text">控制器代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#视图模型-VM-代码"><span class="nav-number">1.0.0.0.3.</span> <span class="nav-text">视图模型(VM)代码</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CoderXWChu</span>
+  本站总访问量 <span id="busuanzi_value_site_pv"></span> 次, 访客数 <span id="busuanzi_value_site_uv"></span> 人次, 本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" rel="external nofollow">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"coderxwchu-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<a href="https://github.com/CoderXWChu"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/121cd7cbdc3e4855075ea8b558508b91ac463ac2/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png"></a>

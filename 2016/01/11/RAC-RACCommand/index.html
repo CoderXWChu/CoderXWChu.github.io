@@ -1,0 +1,810 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RAC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="RACCommand摘自Limboy的&amp;lt;&amp;lt;ReactiveCocoa2实战&amp;gt;&amp;gt; : 原文链接
+####RACCommand
+
+RACCommand是RAC很重要的组成部分，可以节省很多时间并且让你的App变得更Robust
+
+RACCommand 通常用来表示某个Action的执行，比如点击Button。它有几个比较重要的属性：executionSignals / erro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RACCommand">
+<meta property="og:url" content="https://CoderXWChu.github.io/2016/01/11/RAC-RACCommand/index.html">
+<meta property="og:site_name" content="CCNotes">
+<meta property="og:description" content="RACCommand摘自Limboy的&amp;lt;&amp;lt;ReactiveCocoa2实战&amp;gt;&amp;gt; : 原文链接
+####RACCommand
+
+RACCommand是RAC很重要的组成部分，可以节省很多时间并且让你的App变得更Robust
+
+RACCommand 通常用来表示某个Action的执行，比如点击Button。它有几个比较重要的属性：executionSignals / erro">
+<meta property="og:image" content="https://CoderXWChu.github.io/images/rac-mvvm.png">
+<meta property="og:updated_time" content="2016-11-10T04:40:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RACCommand">
+<meta name="twitter:description" content="RACCommand摘自Limboy的&amp;lt;&amp;lt;ReactiveCocoa2实战&amp;gt;&amp;gt; : 原文链接
+####RACCommand
+
+RACCommand是RAC很重要的组成部分，可以节省很多时间并且让你的App变得更Robust
+
+RACCommand 通常用来表示某个Action的执行，比如点击Button。它有几个比较重要的属性：executionSignals / erro">
+<meta name="twitter:image" content="https://CoderXWChu.github.io/images/rac-mvvm.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="https://CoderXWChu.github.io/2016/01/11/RAC-RACCommand/"/>
+
+  <title> RACCommand | CCNotes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?9b70312a130c40fbe6084889e124bfd1";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">CCNotes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">CoderXWChu's Notes</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'vXBbEDyEFnVgcgwS3xQk','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RACCommand
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-11T13:06:08+08:00" content="2016-01-11">
+              2016-01-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/iOS/" itemprop="url" rel="index">
+                    <span itemprop="name">iOS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/11/RAC-RACCommand/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/11/RAC-RACCommand/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="RACCommand"><a href="#RACCommand" class="headerlink" title="RACCommand"></a>RACCommand</h1><p>摘自<code>Limboy</code>的<code>&lt;&lt;ReactiveCocoa2实战&gt;&gt;</code> : <a href="http://limboy.me/ios/2014/06/06/deep-into-reactivecocoa2.html" target="_blank" rel="external">原文链接</a></p>
+<p>####RACCommand</p>
+<ul>
+<li><p>RACCommand是RAC很重要的组成部分，可以节省很多时间并且让你的App变得更Robust</p>
+</li>
+<li><p>RACCommand 通常用来表示某个Action的执行，比如点击Button。它有几个比较重要的属性：executionSignals / errors / executing。</p>
+</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- executionSignals是signal of signals，如果直接subscribe的话会得到一个signal，而不是我们想要的value，所以一般会配合switchToLatest。</div><div class="line">- errors。跟正常的signal不一样，RACCommand的错误不是通过sendError来实现的，而是通过errors属性传递出来的。</div><div class="line">- executing表示该command当前是否正在执行。</div></pre></td></tr></table></figure>
+<p>假设有这么个需求：当图片载入完后，分享按钮才可用。那么可以这样：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">RACSignal *imageAvailableSignal = [RACObserve(<span class="keyword">self</span>, imageView.image) map:<span class="keyword">id</span>^(<span class="keyword">id</span> x)&#123;<span class="keyword">return</span> x ? @YES : @NO&#125;];</div><div class="line"><span class="keyword">self</span>.shareButton.rac_command = [[RACCommand alloc] initWithEnabled:imageAvailableSignal signalBlock:^RACSignal *(<span class="keyword">id</span> input) &#123;</div><div class="line">    <span class="comment">// do share logic</span></div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+<p>除了与UIControl绑定之外，也可以手动执行某个command，比如双击图片点赞，就可以这么实现。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// ViewModel.m</span></div><div class="line">- (<span class="keyword">instancetype</span>)init</div><div class="line">&#123;</div><div class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</div><div class="line">        <span class="keyword">void</span> (^updatePinLikeStatus)() = ^&#123;</div><div class="line">            <span class="keyword">self</span>.pin.likedCount = <span class="keyword">self</span>.pin.hasLiked ? <span class="keyword">self</span>.pin.likedCount - <span class="number">1</span> : <span class="keyword">self</span>.pin.likedCount + <span class="number">1</span>;</div><div class="line">            <span class="keyword">self</span>.pin.hasLiked = !<span class="keyword">self</span>.pin.hasLiked;</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        _likeCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(<span class="keyword">id</span> input) &#123;</div><div class="line">            <span class="comment">// 先展示效果，再发送请求</span></div><div class="line">            updatePinLikeStatus();</div><div class="line">            <span class="keyword">return</span> [[HBAPIManager sharedManager] likePinWithPinID:<span class="keyword">self</span>.pin.pinID];</div><div class="line">        &#125;];</div><div class="line"></div><div class="line">        [_likeCommand.errors subscribeNext:^(<span class="keyword">id</span> x) &#123;</div><div class="line">            <span class="comment">// 发生错误时，回滚</span></div><div class="line">            updatePinLikeStatus();</div><div class="line">        &#125;];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// ViewController.m</span></div><div class="line">- (<span class="keyword">void</span>)viewDidLoad</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewDidLoad];</div><div class="line">    <span class="comment">// ...</span></div><div class="line">    @weakify(<span class="keyword">self</span>);</div><div class="line">    [RACObserve(<span class="keyword">self</span>, viewModel.hasLiked) subscribeNext:^(<span class="keyword">id</span> x)&#123;</div><div class="line">        @strongify(<span class="keyword">self</span>);</div><div class="line">        <span class="keyword">self</span>.pinLikedCountLabel.text = <span class="keyword">self</span>.viewModel.likedCount;</div><div class="line">        <span class="keyword">self</span>.likePinImageView.image = [<span class="built_in">UIImage</span> imageNamed:<span class="keyword">self</span>.viewModel.hasLiked ? <span class="string">@"pin_liked"</span> : <span class="string">@"pin_like"</span>];</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">    <span class="built_in">UITapGestureRecognizer</span> *tapGesture = [[<span class="built_in">UITapGestureRecognizer</span> alloc] init];</div><div class="line">    tapGesture.numberOfTapsRequired = <span class="number">2</span>;</div><div class="line">    [[tapGesture rac_gestureSignal] subscribeNext:^(<span class="keyword">id</span> x) &#123;</div><div class="line">        [<span class="keyword">self</span>.viewModel.likeCommand execute:<span class="literal">nil</span>];</div><div class="line">    &#125;];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再比如某个App要通过Twitter登录，同时允许取消登录，就可以这么做 (source)</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">_twitterLoginCommand = [[RACCommand alloc] initWithSignalBlock:^(<span class="keyword">id</span> _) &#123;</div><div class="line">      @strongify(<span class="keyword">self</span>);</div><div class="line">      <span class="keyword">return</span> [[<span class="keyword">self</span></div><div class="line">          twitterSignInSignal]</div><div class="line">          takeUntil:<span class="keyword">self</span>.cancelCommand.executionSignals];</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">RAC(<span class="keyword">self</span>.authenticatedUser) = [<span class="keyword">self</span>.twitterLoginCommand.executionSignals switchToLatest];</div></pre></td></tr></table></figure>
+<p>###常用的模式</p>
+<p>####map + switchToLatest</p>
+<p><code>switchToLatest:</code> 的作用是自动切换signal of signals到最后一个，比如之前的<code>command.executionSignals</code>就可以使用<code>switchToLatest:</code>。</p>
+<p><code>map:</code>的作用很简单，对<code>sendNext的value</code>做一下处理，返回一个新的值。</p>
+<p>如果把这两个结合起来就有意思了，想象这么个场景，当用户在搜索框输入文字时，需要通过网络请求返回相应的hints，每当文字有变动时，需要取消上一次的请求，就可以使用这个配搭。这里用另一个Demo，简单演示一下:</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">NSArray</span> *pins = @[@<span class="number">172230988</span>, @<span class="number">172230947</span>, @<span class="number">172230899</span>, @<span class="number">172230777</span>, @<span class="number">172230707</span>];</div><div class="line">__block <span class="built_in">NSInteger</span> index = <span class="number">0</span>;</div><div class="line"></div><div class="line">RACSignal *signal = [[[[RACSignal interval:<span class="number">0.1</span> onScheduler:[RACScheduler scheduler]]</div><div class="line">                        take:pins.count]</div><div class="line">                        map:^<span class="keyword">id</span>(<span class="keyword">id</span> value) &#123;</div><div class="line">                            <span class="keyword">return</span> [[[HBAPIManager sharedManager] fetchPinWithPinID:[pins[index++] intValue]] doNext:^(<span class="keyword">id</span> x) &#123;</div><div class="line">                                <span class="built_in">NSLog</span>(<span class="string">@"这里只会执行一次"</span>);</div><div class="line">                            &#125;];</div><div class="line">                        &#125;]</div><div class="line">                        switchToLatest];</div><div class="line"></div><div class="line">[signal subscribeNext:^(HBPin *pin) &#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"pinID:%d"</span>, pin.pinID);</div><div class="line">&#125; completed:^&#123;</div><div class="line">    <span class="built_in">NSLog</span>(<span class="string">@"completed"</span>);</div><div class="line">&#125;];</div><div class="line"></div><div class="line"><span class="comment">// output</span></div><div class="line"><span class="comment">// 2014-06-05 17:40:49.851 这里只会执行一次</span></div><div class="line"><span class="comment">// 2014-06-05 17:40:49.851 pinID:172230707</span></div><div class="line"><span class="comment">// 2014-06-05 17:40:49.851 completed</span></div></pre></td></tr></table></figure>
+<p>####takeUntil</p>
+<ul>
+<li><p><code>takeUntil:someSignal</code> 的作用是当someSignal sendNext时，当前的signal就sendCompleted，someSignal就像一个拳击裁判，哨声响起就意味着比赛终止。</p>
+<ul>
+<li>它的常用场景之一是处理cell的button的点击事件，比如点击Cell的详情按钮，需要push一个VC，就可以这样：</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[[[cell.detailButton</div><div class="line">    rac_signalForControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>]</div><div class="line">    takeUntil:cell.rac_prepareForReuseSignal]</div><div class="line">    subscribeNext:^(<span class="keyword">id</span> x) &#123;</div><div class="line">        <span class="comment">// generate and push ViewController</span></div><div class="line">&#125;];</div></pre></td></tr></table></figure>
+<ul>
+<li>如果不加<code>takeUntil:cell.rac_prepareForReuseSignal</code>，那么每次Cell被重用时，该button都会被<code>addTarget:selector</code>。</li>
+</ul>
+<p>####替换Delegate</p>
+<ul>
+<li>出现这种需求，通常是因为需要对Delegate的多个方法做统一的处理，这时就可以造一个signal出来，每次该Delegate的某些方法被触发时，该signal就会sendNext。</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">UISearchDisplayController</span> (<span class="title">RAC</span>)</span></div><div class="line">- (RACSignal *)rac_isActiveSignal &#123;</div><div class="line">    <span class="keyword">self</span>.delegate = <span class="keyword">self</span>;</div><div class="line">    RACSignal *signal = objc_getAssociatedObject(<span class="keyword">self</span>, _cmd);</div><div class="line">    <span class="keyword">if</span> (signal != <span class="literal">nil</span>) <span class="keyword">return</span> signal;</div><div class="line"></div><div class="line">    <span class="comment">/* Create two signals and merge them */</span></div><div class="line">    RACSignal *didBeginEditing = [[<span class="keyword">self</span> rac_signalForSelector:<span class="keyword">@selector</span>(searchDisplayControllerDidBeginSearch:)</div><div class="line">                                        fromProtocol:<span class="class"><span class="keyword">@protocol</span>(<span class="title">UISearchDisplayDelegate</span>)] <span class="title">mapReplace</span>:@<span class="title">YES</span>];</span></div><div class="line">    RACSignal *didEndEditing = [[<span class="keyword">self</span> rac_signalForSelector:<span class="keyword">@selector</span>(searchDisplayControllerDidEndSearch:)</div><div class="line">                                      fromProtocol:<span class="class"><span class="keyword">@protocol</span>(<span class="title">UISearchDisplayDelegate</span>)] <span class="title">mapReplace</span>:@<span class="title">NO</span>];</span></div><div class="line">    signal = [RACSignal merge:@[didBeginEditing, didEndEditing]];</div><div class="line"></div><div class="line"></div><div class="line">    objc_setAssociatedObject(<span class="keyword">self</span>, _cmd, signal, OBJC_ASSOCIATION_RETAIN_NONATOMIC);</div><div class="line">    <span class="keyword">return</span> signal;</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div></pre></td></tr></table></figure>
+<p>####使用<code>ReactiveViewModel</code>的<code>didBecomActiveSignal</code></p>
+<ul>
+<li><code>ReactiveViewModel</code>是另一个project，通常的做法是在VC里设置VM的active属性(RVMViewModel自带该属性)，然后在VM里subscribeNext didBecomActiveSignal，比如当Active时，获取TableView的最新数据。</li>
+</ul>
+<p>#####RACSubject的使用场景</p>
+<p>一般不推荐使用RACSubject，因为它过于灵活，滥用的话容易导致复杂度的增加。但有一些场景用一下还是比较方便的，比如ViewModel的errors。</p>
+<p>ViewModel一般会有多个RACCommand，那这些commands如果出现error了该如何处理呢？比较方便的方法如下：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// HBCViewModel.h</span></div><div class="line"></div><div class="line"><span class="meta">#import <span class="meta-string">"RVMViewModel.h"</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@class</span> <span class="title">RACSubject</span>;</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">HBCViewModel</span> : <span class="title">RVMViewModel</span></span></div><div class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>) RACSubject *errors;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// HBCViewModel.m</span></div><div class="line"></div><div class="line"><span class="meta">#import <span class="meta-string">"HBCViewModel.h"</span></span></div><div class="line"><span class="meta">#import <span class="meta-string">&lt;ReactiveCocoa.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">HBCViewModel</span></span></div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)init</div><div class="line">&#123;</div><div class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</div><div class="line">        _errors = [RACSubject subject];</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)dealloc</div><div class="line">&#123;</div><div class="line">    [_errors sendCompleted];</div><div class="line">&#125;</div><div class="line"><span class="keyword">@end</span></div><div class="line"></div><div class="line"><span class="comment">// Some Other ViewModel inherit HBCViewModel</span></div><div class="line"></div><div class="line">- (<span class="keyword">instancetype</span>)init</div><div class="line">&#123;</div><div class="line">    _fetchLatestCommand = [RACCommand alloc] initWithSignalBlock:^RACSignal *(<span class="keyword">id</span> input)&#123;</div><div class="line">        <span class="comment">// fetch latest data</span></div><div class="line"> &#125;];</div><div class="line"></div><div class="line">    _fetchMoreCommand = [RACCommand alloc] initWithSignalBlock:^RACSignal *(<span class="keyword">id</span> input)&#123;</div><div class="line">        <span class="comment">// fetch more data</span></div><div class="line"> &#125;];</div><div class="line"></div><div class="line">    [<span class="keyword">self</span>.didBecomeActiveSignal subscribeNext:^(<span class="keyword">id</span> x) &#123;</div><div class="line">        [_fetchLatestCommand execute:<span class="literal">nil</span>];</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">    [[RACSignal</div><div class="line">        merge:@[</div><div class="line">                _fetchMoreCommand.errors,</div><div class="line">                _fetchLatestCommand.errors</div><div class="line">                ]] subscribe:<span class="keyword">self</span>.errors];</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>####rac_signalForSelector</p>
+<ul>
+<li><code>rac_signalForSelector:</code> 这个方法会返回一个signal，当selector执行完时，会sendNext，也就是当某个方法调用完后再额外做一些事情。用在category会比较方便，因为Category重写父类的方法时，不能再通过[super XXX]来调用父类的方法，当然也可以手写Swizzle来实现，不过有了rac_signalForSelector:就方便多了。</li>
+</ul>
+<p>rac_signalForSelector: fromProtocol: 可以直接实现对protocol的某个方法的实现（听着有点别扭呢），比如，我们想实现UIScrollViewDelegate的某些方法，可以这么写</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[[<span class="keyword">self</span> rac_signalForSelector:<span class="keyword">@selector</span>(scrollViewDidEndDecelerating:) fromProtocol:<span class="class"><span class="keyword">@protocol</span>(<span class="title">UIScrollViewDelegate</span>)] <span class="title">subscribeNext</span>:^(<span class="title">RACTuple</span> *<span class="title">tuple</span>) </span>&#123;</div><div class="line">    <span class="comment">// do something</span></div><div class="line">&#125;];</div><div class="line"></div><div class="line">[[<span class="keyword">self</span> rac_signalForSelector:<span class="keyword">@selector</span>(scrollViewDidScroll:) fromProtocol:<span class="class"><span class="keyword">@protocol</span>(<span class="title">UIScrollViewDelegate</span>)] <span class="title">subscribeNext</span>:^(<span class="title">RACTuple</span> *<span class="title">tuple</span>) </span>&#123;</div><div class="line">    <span class="comment">// do something</span></div><div class="line">&#125;];</div><div class="line"></div><div class="line"><span class="keyword">self</span>.scrollView.delegate = <span class="literal">nil</span>;</div><div class="line"><span class="keyword">self</span>.scrollView.delegate = <span class="keyword">self</span>;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>注意，这里的delegate需要先设置为nil，再设置为self，而不能直接设置为self，如果self已经是该scrollView的Delegate的话。</p>
+</li>
+<li><p>有时，我们想对selector的返回值做一些处理，但很遗憾RAC不支持，如果真的有需要的话，可以使用<a href="https://github.com/steipete/Aspects" target="_blank" rel="external">Aspects</a></p>
+</li>
+</ul>
+<p>###MVVM</p>
+<p>ViewModel主要做的事情是作为View的数据源，所以通常会包含网络请求。</p>
+<p>或许你会疑惑，ViewController哪去了？在MVVM的世界里，ViewController已经成为了View的一部分。它的主要职责是将VM与View绑定、响应VM数据的变化、调用VM的某个方法、与其他的VC打交道。</p>
+<p>而RAC为MVVM带来很大的便利，比如RACCommand, UIKit的RAC Extension等等。使用MVVM不一定能减少代码量，但能降低代码的复杂度。</p>
+<p>以下面这个需求为例，要求大图滑动结束时，底部的缩略图滚动到对应的位置，并高亮该缩略图；同时底部的缩略图被选中时，大图也要变成该缩略图的大图。</p>
+<p><img src="images/rac-mvvm.png" alt="rac-mvvm"></p>
+<ul>
+<li><p>我的思路是横向滚动的大图是一个collectionView，该collectionView是当前页面VC的一个property。底部可以滑动的缩略图是一个childVC的collectionView，这两个collectionView共用一套VM，并且各自RACObserve感兴趣的property。</p>
+</li>
+<li><p>比如大图滑到下一页时，会改变VM的indexPath属性，而底部的collectionView所在的VC正好对该indexPath感兴趣，只要indexPath变化就滚动到相应的Item</p>
+</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// childVC</span></div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)viewDidLoad</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewDidLoad];</div><div class="line"></div><div class="line">    @weakify(<span class="keyword">self</span>);</div><div class="line">    [RACObserve(<span class="keyword">self</span>, viewModel.indexPath) subscribeNext:^(<span class="built_in">NSNumber</span> *index) &#123;</div><div class="line">        @strongify(<span class="keyword">self</span>);</div><div class="line">        [<span class="keyword">self</span> scrollToIndexPath];</div><div class="line">    &#125;];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)scrollToIndexPath</div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>.collectionView.subviews.count) &#123;</div><div class="line">        <span class="built_in">NSIndexPath</span> *indexPath = <span class="keyword">self</span>.viewModel.indexPath;</div><div class="line">        [<span class="keyword">self</span>.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:<span class="built_in">UICollectionViewScrollPositionCenteredHorizontally</span> animated:<span class="literal">YES</span>];</div><div class="line">        [<span class="keyword">self</span>.collectionView.subviews enumerateObjectsUsingBlock:^(<span class="built_in">UIView</span> *view, <span class="built_in">NSUInteger</span> idx, <span class="built_in">BOOL</span> *stop) &#123;</div><div class="line">            view.layer.borderWidth = <span class="number">0</span>;</div><div class="line">        &#125;];</div><div class="line">        <span class="built_in">UIView</span> *view = [<span class="keyword">self</span>.collectionView cellForItemAtIndexPath:indexPath];</div><div class="line">        view.layer.borderWidth = kHBPinsNaviThumbnailPadding;</div><div class="line">        view.layer.borderColor = [<span class="built_in">UIColor</span> whiteColor].CGColor;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>当点击底部的缩略图时，上面的大图也要做出变化，也同样可以通过RACObserve indexPath来实现</li>
+</ul>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// PinsViewController.m</span></div><div class="line">- (<span class="keyword">void</span>)viewDidLoad</div><div class="line">&#123;</div><div class="line">    [<span class="keyword">super</span> viewDidLoad];</div><div class="line">    @weakify(<span class="keyword">self</span>);</div><div class="line">    [[RACObserve(<span class="keyword">self</span>, viewModel.indexPath)</div><div class="line">        skip:<span class="number">1</span>]</div><div class="line">        subscribeNext:^(<span class="built_in">NSIndexPath</span> *indexPath) &#123;</div><div class="line">            @strongify(<span class="keyword">self</span>);</div><div class="line">            [<span class="keyword">self</span>.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:<span class="built_in">UICollectionViewScrollPositionCenteredHorizontally</span> animated:<span class="literal">YES</span>];</div><div class="line">    &#125;];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里有一个小技巧，当Cell里的元素比较复杂时，我们可以给Cell也准备一个ViewModel，这个CellViewModel可以由上一层的ViewModel提供，这样Cell如果需要相应的数据，直接跟CellViewModel要即可，CellViewModel也可以包含一些command，比如likeCommand。假如点击Cell时，要做一些处理，也很方便。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// CellViewModel已经在ViewModel里准备好了</span></div><div class="line">- (<span class="built_in">UICollectionViewCell</span> *)collectionView:(<span class="built_in">UICollectionView</span> *)collectionView cellForItemAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</div><div class="line">&#123;</div><div class="line">    HBPinsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];</div><div class="line">    cell.viewModel = <span class="keyword">self</span>.viewModel.cellViewModels[indexPath.row];</div><div class="line">    <span class="keyword">return</span> cell;</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)collectionView:(<span class="built_in">UICollectionView</span> *)collectionView didSelectItemAtIndexPath:(<span class="built_in">NSIndexPath</span> *)indexPath</div><div class="line">&#123;</div><div class="line">    HBCellViewModel *cellViewModel = <span class="keyword">self</span>.viewModel.cellViewModels[indexPath.row];</div><div class="line">    <span class="comment">// 对cellViewModel执行某些操作，因为Cell已经与cellViewModel绑定，所以cellViewModel的改变也会反映到Cell上</span></div><div class="line"> <span class="comment">// 或拿到cellViewModel的数据来执行某些操作</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>##<code>ViewModel中signal, property, command</code>的使用</p>
+<ul>
+<li>初次使用RAC+MVVM时，往往会疑惑:</li>
+</ul>
+<p>#####什么时候用signal，什么时候用property，什么时候用command？</p>
+<ul>
+<li><strong>一般来说可以使用<code>property</code>的就直接使用，没必要再转换成<code>signal</code>，<code>外部RACObserve</code>即可。使用<code>signal</code>的场景一般是涉及到多个<code>property</code>或多个<code>signal</code>合并为<code>一个signal</code>。<code>command</code>往往与<code>UIControl/网络请求挂钩</code></strong>。</li>
+</ul>
+<p>##常见场景的处理</p>
+<ul>
+<li>检查本地缓存，如果失效则去请求网络数据并缓存到本地</li>
+</ul>
+<p><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/1166" target="_blank" rel="external">来源</a></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- (RACSignal *)loadData &#123;</div><div class="line">    <span class="keyword">return</span> [[RACSignal</div><div class="line">        createSignal:^(<span class="keyword">id</span>&lt;RACSubscriber&gt; subscriber) &#123;</div><div class="line">            <span class="comment">// If the cache is valid then we can just immediately send the</span></div><div class="line">            <span class="comment">// cached data and be done.</span></div><div class="line">            <span class="keyword">if</span> (<span class="keyword">self</span>.cacheValid) &#123;</div><div class="line">                [subscriber sendNext:<span class="keyword">self</span>.cachedData];</div><div class="line">                [subscriber sendCompleted];</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                [subscriber sendError:<span class="keyword">self</span>.staleCacheError];</div><div class="line">            &#125;</div><div class="line">        &#125;]</div><div class="line">        <span class="comment">// Do the subscription work on some random scheduler, off the main</span></div><div class="line">        <span class="comment">// thread.</span></div><div class="line">        subscribeOn:[RACScheduler scheduler]];</div><div class="line">&#125;</div><div class="line"></div><div class="line">- (<span class="keyword">void</span>)update &#123;</div><div class="line">    [[[[<span class="keyword">self</span></div><div class="line">        loadData]</div><div class="line">        <span class="comment">// Catch the error from -loadData. It means our cache is stale. Update</span></div><div class="line">        <span class="comment">// our cache and save it.</span></div><div class="line">        catch:^(<span class="built_in">NSError</span> *error) &#123;</div><div class="line">            <span class="keyword">return</span> [[<span class="keyword">self</span> updateCachedData] doNext:^(<span class="keyword">id</span> data) &#123;</div><div class="line">                [<span class="keyword">self</span> cacheData:data];</div><div class="line">            &#125;];</div><div class="line">        &#125;]</div><div class="line">        <span class="comment">// Our work up until now has been on a background scheduler. Get our</span></div><div class="line">        <span class="comment">// results delivered on the main thread so we can do UI work.</span></div><div class="line">        deliverOn:RACScheduler.mainThreadScheduler]</div><div class="line">        subscribeNext:^(<span class="keyword">id</span> data) &#123;</div><div class="line">            <span class="comment">// Update your UI based on `data`.</span></div><div class="line"></div><div class="line">            <span class="comment">// Update again after `updateInterval` seconds have passed.</span></div><div class="line">            [[RACSignal interval:updateInterval] take:<span class="number">1</span>] subscribeNext:^(<span class="keyword">id</span> _) &#123;</div><div class="line">                [<span class="keyword">self</span> update];</div><div class="line">            &#125;];</div><div class="line">        &#125;];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>###检测用户名是否可用<br><a href="https://github.com/ReactiveCocoa/ReactiveCocoa/issues/1236" target="_blank" rel="external">来源</a></p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">- (<span class="keyword">void</span>)setupUsernameAvailabilityChecking &#123;</div><div class="line">    RAC(<span class="keyword">self</span>, availabilityStatus) = [[[RACObserve(<span class="keyword">self</span>.userTemplate, username)</div><div class="line">                                      throttle:kUsernameCheckThrottleInterval] <span class="comment">//throttle表示interval时间内如果有sendNext，则放弃该nextValue</span></div><div class="line">                                      map:^(<span class="built_in">NSString</span> *username) &#123;</div><div class="line">                                          <span class="keyword">if</span> (username.length == <span class="number">0</span>) <span class="keyword">return</span> [RACSignal <span class="keyword">return</span>:@(UsernameAvailabilityCheckStatusEmpty)];</div><div class="line">                                          <span class="keyword">return</span> [[[[[FIBAPIClient sharedInstance]</div><div class="line">                                                getUsernameAvailabilityFor:username ignoreCache:<span class="literal">NO</span>]</div><div class="line">                                              map:^(<span class="built_in">NSDictionary</span> *result) &#123;</div><div class="line">                                                  <span class="built_in">NSNumber</span> *existsNumber = result[<span class="string">@"exists"</span>];</div><div class="line">                                                  <span class="keyword">if</span> (!existsNumber) <span class="keyword">return</span> @(UsernameAvailabilityCheckStatusFailed);</div><div class="line">                                                  UsernameAvailabilityCheckStatus status = [existsNumber boolValue] ? UsernameAvailabilityCheckStatusUnavailable : UsernameAvailabilityCheckStatusAvailable;</div><div class="line">                                                  <span class="keyword">return</span> @(status);</div><div class="line">                                              &#125;]</div><div class="line">                                             catch:^(<span class="built_in">NSError</span> *error) &#123;</div><div class="line">                                                  <span class="keyword">return</span> [RACSignal <span class="keyword">return</span>:@(UsernameAvailabilityCheckStatusFailed)];</div><div class="line">                                              &#125;] startWith:@(UsernameAvailabilityCheckStatusChecking)];</div><div class="line">                                      &#125;]</div><div class="line">                                      switchToLatest];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>可以看到这里也使用了map + switchToLatest模式，这样就可以自动取消上一次的网络请求。</p>
+</li>
+<li><p>startWith的内部实现是concat，这里表示先将状态置为checking，然后再根据网络请求的结果设置状态。</p>
+</li>
+</ul>
+<p>####使用takeUntil:来处理Cell的button点击</p>
+<p>这个上面已经提到过了。</p>
+<p>####token过期后自动获取新的</p>
+<p>开发APIClient时，会用到AccessToken，这个Token过一段时间会过期，需要去请求新的Token。比较好的用户体验是当token过期后，自动去获取新的Token，拿到后继续上一次的请求，这样对用户是透明的。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">RACSignal *requestSignal = [RACSignal createSignal:^RACDisposable *(<span class="keyword">id</span>&lt;RACSubscriber&gt; subscriber) &#123;</div><div class="line">        <span class="comment">// suppose first time send request, access token is expired or invalid</span></div><div class="line">        <span class="comment">// and next time it is correct.</span></div><div class="line">        <span class="comment">// the block will be triggered twice.</span></div><div class="line">        <span class="keyword">static</span> <span class="built_in">BOOL</span> isFirstTime = <span class="number">0</span>;</div><div class="line">        <span class="built_in">NSString</span> *url = <span class="string">@"http://httpbin.org/ip"</span>;</div><div class="line">        <span class="keyword">if</span> (!isFirstTime) &#123;</div><div class="line">            url = <span class="string">@"http://nonexists.com/error"</span>;</div><div class="line">            isFirstTime = <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"url:%@"</span>, url);</div><div class="line">        [[AFHTTPRequestOperationManager manager] GET:url parameters:<span class="literal">nil</span> success:^(AFHTTPRequestOperation *operation, <span class="keyword">id</span> responseObject) &#123;</div><div class="line">            [subscriber sendNext:responseObject];</div><div class="line">            [subscriber sendCompleted];</div><div class="line">        &#125; failure:^(AFHTTPRequestOperation *operation, <span class="built_in">NSError</span> *error) &#123;</div><div class="line">            [subscriber sendError:error];</div><div class="line">        &#125;];</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">    &#125;];</div><div class="line"></div><div class="line">    <span class="keyword">self</span>.statusLabel.text = <span class="string">@"sending request..."</span>;</div><div class="line">    [[requestSignal catch:^RACSignal *(<span class="built_in">NSError</span> *error) &#123;</div><div class="line">        <span class="keyword">self</span>.statusLabel.text = <span class="string">@"oops, invalid access token"</span>;</div><div class="line"></div><div class="line">        <span class="comment">// simulate network request, and we fetch the right access token</span></div><div class="line">        <span class="keyword">return</span> [[RACSignal createSignal:^RACDisposable *(<span class="keyword">id</span>&lt;RACSubscriber&gt; subscriber) &#123;</div><div class="line">            <span class="keyword">double</span> delayInSeconds = <span class="number">1.0</span>;</div><div class="line">            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * <span class="built_in">NSEC_PER_SEC</span>));</div><div class="line">            dispatch_after(popTime, dispatch_get_main_queue(), ^(<span class="keyword">void</span>)&#123;</div><div class="line">                [subscriber sendNext:@YES];</div><div class="line">                [subscriber sendCompleted];</div><div class="line">            &#125;);</div><div class="line">            <span class="keyword">return</span> <span class="literal">nil</span>;</div><div class="line">        &#125;] concat:requestSignal];</div><div class="line">    &#125;] subscribeNext:^(<span class="keyword">id</span> x) &#123;</div><div class="line">        <span class="keyword">if</span> ([x isKindOfClass:[<span class="built_in">NSDictionary</span> <span class="keyword">class</span>]]) &#123;</div><div class="line">            <span class="keyword">self</span>.statusLabel.text = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"result:%@"</span>, x[<span class="string">@"origin"</span>]];</div><div class="line">        &#125;</div><div class="line">    &#125; completed:^&#123;</div><div class="line">        <span class="built_in">NSLog</span>(<span class="string">@"completed"</span>);</div><div class="line">    &#125;];</div></pre></td></tr></table></figure>
+<p>####注意事项</p>
+<p>RAC我自己感觉遇到的几个难点是: 1) 理解RAC的理念。 2) 熟悉常用的API。3) 针对某些特定的场景，想出比较合理的RAC处理方式。不过看多了，写多了，想多了就会慢慢适应。下面是我在实践过程中遇到的一些小坑。</p>
+<p>#####ReactiveCocoaLayout</p>
+<p>有时Cell的内容涉及到动态的高度，就会想到用Autolayout来布局，但RAC已经为我们准备好了: <a href="https://github.com/ReactiveCocoa/ReactiveCocoaLayout" target="_blank" rel="external">ReactiveCocoaLayout</a>.</p>
+<p>#####strongify / weakify dance</p>
+<p>因为RAC很多操作都是在Block中完成的，这块最常见的问题就是在block直接把self拿来用，造成block和self的retain cycle。所以需要通过<code>@strongify</code>和<code>@weakify</code>来消除循环引用。</p>
+<p>有些地方很容易被忽略，比如<code>RACObserve(thing, keypath)</code>，看上去并没有引用self，所以在subscribeNext时就忘记了<code>weakify/strongify</code>。但事实上RACObserve总是会引用self，即使target不是self，所以只要有<code>RACObserve</code>的地方都要使用<code>weakify/strongify</code>。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@weakify(<span class="keyword">self</span>);</div><div class="line">   [[RACObserve(<span class="keyword">self</span>, viewModel.indexPath)</div><div class="line">       skip:<span class="number">1</span>]</div><div class="line">       subscribeNext:^(<span class="built_in">NSIndexPath</span> *indexPath) &#123;</div><div class="line">           @strongify(<span class="keyword">self</span>);</div><div class="line">           [<span class="keyword">self</span>.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:<span class="built_in">UICollectionViewScrollPositionCenteredHorizontally</span> animated:<span class="literal">YES</span>];</div><div class="line">   &#125;];</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RAC/" rel="tag">#RAC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/10/RAC0/" rel="next" title="ReactiveCocoa">
+                <i class="fa fa-chevron-left"></i> ReactiveCocoa
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/12/RAC-映射/" rel="prev" title="RAC-映射">
+                RAC-映射 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/11/RAC-RACCommand/"
+           data-title="RACCommand" data-url="https://CoderXWChu.github.io/2016/01/11/RAC-RACCommand/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="CoderXWChu" />
+          <p class="site-author-name" itemprop="name">CoderXWChu</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap.Show me your code.</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RACCommand"><span class="nav-number">1.</span> <span class="nav-text">RACCommand</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CoderXWChu</span>
+  本站总访问量 <span id="busuanzi_value_site_pv"></span> 次, 访客数 <span id="busuanzi_value_site_uv"></span> 人次, 本文总阅读量 <span id="busuanzi_value_page_pv"></span> 次
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" rel="external nofollow">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Mist
+  </a>
+</div>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"coderxwchu-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+
+<a href="https://github.com/CoderXWChu"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/121cd7cbdc3e4855075ea8b558508b91ac463ac2/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png"></a>
